@@ -1,7 +1,9 @@
 import React from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import Todos from "./components/Todos";
 import AddTodos from "./components/AddTodo";
 import Header from "./components/layout/header";
+import About from "./components/pages/About";
 import uuid from "uuid";
 import "./App.css";
 
@@ -82,18 +84,29 @@ class App extends React.Component {
     // this is where we can write react data to view in dev tools for debug (example below)
     // console.log(this.state.todosCompendium);
     return (
-      <div className="App">
-        <div className="container">
-          <Header />
-          {/* this is where we add the react components */}
-          <Todos
-            todosCompendiumItems={this.state.todosCompendium}
-            markComplete={this.markComplete}
-            delTodo={this.delTodo}
-          />
-          <AddTodos addTodo={this.addTodo} />
+      <Router>
+        <div className="App">
+          <div className="container">
+            <Header />
+            <Route
+              exact
+              path="/"
+              render={props => (
+                <React.Fragment>
+                  <Todos
+                    todosCompendiumItems={this.state.todosCompendium}
+                    markComplete={this.markComplete}
+                    delTodo={this.delTodo}
+                  />
+                  <AddTodos addTodo={this.addTodo} />
+                </React.Fragment>
+              )}
+            />
+            <Route path="/about" component={About} />
+            {/* this is where we add the react components */}
+          </div>
         </div>
-      </div>
+      </Router>
     );
   }
 }
